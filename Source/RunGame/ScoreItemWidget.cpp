@@ -1,15 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "GameScore.h"
+#include "ScoreItemWidget.h"
 
-UGameScore::UGameScore(const FObjectInitializer& ObjectInitializer)
+UScoreItemWidget::UScoreItemWidget(const FObjectInitializer& ObjectInitializer)
     : UUserWidget(ObjectInitializer)
 {
     TextBlock = nullptr;
 }
 
-void UGameScore::NativeOnInitialized()
+void UScoreItemWidget::NativeOnInitialized()
 {
     // 初期化
     Super::NativeOnInitialized();
@@ -20,7 +20,7 @@ void UGameScore::NativeOnInitialized()
     TextBlock = pTextBlock;
 }
 
-void UGameScore::UpdateScore(int score)
+void UScoreItemWidget::UpdateScore(int score)
 {
     // テキスト + スコア表示
     FString str = TEXT("Score:") + FString::FromInt(score);

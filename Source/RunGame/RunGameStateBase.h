@@ -16,17 +16,23 @@ class RUNGAME_API ARunGameStateBase : public AGameStateBase
 public:
 	ARunGameStateBase();
 
-	// マルチキャストを宣言、１つ引数を使えるように_OneParamをつける
+	// マルチキャストデリゲート
 	DECLARE_MULTICAST_DELEGATE_OneParam(FScoreUpdateDelegate, int);
+	DECLARE_MULTICAST_DELEGATE_OneParam(FItemBuffDelegate, int);
 
 	// スコア加算関数
 	void ScoreAdd(int score);
+	// アイテムバフ関数
+	void ItemBuff(int no);
 
-	// デリゲートを作成
+	// デリゲート作成
 	FScoreUpdateDelegate ScoreUpdateDelegate;
+	FItemBuffDelegate ItemBuffDelegate;
 
 protected:
 	int Score;
+	int ItemNo;
+
 private:
 
 

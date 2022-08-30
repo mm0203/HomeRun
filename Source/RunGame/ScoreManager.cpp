@@ -20,7 +20,7 @@ void AScoreManager::BeginPlay()
 
     TSubclassOf<UUserWidget> WidgetClass;
     WidgetClass = TSoftClassPtr<UUserWidget>(FSoftObjectPath(TEXT("/Game/ThirdPerson/Blueprints/WBP/WBP_Score.WBP_Score_C"))).LoadSynchronous();
-    ScoreInstance = CreateWidget<UGameScore>(GetWorld(), WidgetClass);
+    ScoreInstance = CreateWidget<UScoreItemWidget>(GetWorld(), WidgetClass);
     ensure(ScoreInstance);
     if (ScoreInstance)
     {
@@ -32,7 +32,7 @@ void AScoreManager::BeginPlay()
 	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
     if (gameState != nullptr)
     {
-        gameState->ScoreUpdateDelegate.AddUObject(ScoreInstance, &UGameScore::UpdateScore);
+        gameState->ScoreUpdateDelegate.AddUObject(ScoreInstance, &UScoreItemWidget::UpdateScore);
     }
 }
 

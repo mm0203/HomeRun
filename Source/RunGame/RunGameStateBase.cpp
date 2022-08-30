@@ -7,6 +7,7 @@
 ARunGameStateBase::ARunGameStateBase()
 {
 	Score = 0;
+	ItemNo = 0;
 }
 
 void ARunGameStateBase::ScoreAdd(int score)
@@ -19,4 +20,12 @@ void ARunGameStateBase::ScoreAdd(int score)
 	FString cnt = UKismetStringLibrary::Conv_IntToString(Score);
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, cnt);
 
+}
+
+void ARunGameStateBase::ItemBuff(int no)
+{
+	ItemNo = no;
+	ItemBuffDelegate.Broadcast(ItemNo);
+	FString cnt = UKismetStringLibrary::Conv_IntToString(ItemNo);
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, cnt);
 }

@@ -5,8 +5,8 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/Controller.h"
 #include "ScoreItem.h"
+#include "BuffItem.h"
 #include "GameFramework/SpringArmComponent.h"
 
 ARunGameCharacter::ARunGameCharacter()
@@ -47,11 +47,9 @@ ARunGameCharacter::ARunGameCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
-	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+	Tags.Add(FName("Player"));
 }
 
-// Called when the game starts or when spawned
 void ARunGameCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -91,10 +89,14 @@ void ARunGameCharacter::PlayerMoveLeft()
 
 void ARunGameCharacter::OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor)
 {
-	// ’Êí‚Ì‰a
 	if (OtherActor->ActorHasTag("ScoreItem"))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, "item");
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, "ScoreItem");
 		Cast<AScoreItem>(OtherActor)->ToCatchItem();
+	}
+	if (OtherActor->ActorHasTag("BuffItem"))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, "BuffItem");
+		Cast<ABuffItem>(OtherActor)->ToCatchItem();
 	}
 }

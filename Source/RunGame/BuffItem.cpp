@@ -1,24 +1,29 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ScoreItem.h"
+#include "BuffItem.h"
+
 #include "RunGameStateBase.h"
 
-AScoreItem::AScoreItem()
+ABuffItem::ABuffItem()
 {
-	Score = 0;
+	ItemNo = 0;
 
 	Tags.Add(FName("BuffItem"));
 }
 
-void AScoreItem::ToCatchItem()
+void ABuffItem::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void ABuffItem::ToCatchItem()
 {
 	// ‰¹
 	//UGameplayStatics::PlaySound2D(this, ConsumptionSound);
 
-	// ƒXƒRƒA‚ğ‰ÁZ
 	auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();
-	GameState->ScoreAdd(Score);
+	GameState->ItemBuff(ItemNo);
 
 	// íœ
 	Destroy();

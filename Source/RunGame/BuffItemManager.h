@@ -4,25 +4,25 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ScoreItemWidget.h"
-#include "ScoreManager.generated.h"
+#include "BuffItemManager.generated.h"
 
 UCLASS()
-class RUNGAME_API AScoreManager : public AActor
+class RUNGAME_API ABuffItemManager : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	AScoreManager();
+	// Sets default values for this actor's properties
+	ABuffItemManager();
 
 protected:
+	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		UScoreItemWidget* ScoreInstance;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION()
+		void BuffEffect(int no);
 };
