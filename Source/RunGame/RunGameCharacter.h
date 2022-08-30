@@ -31,7 +31,10 @@ protected:
 	void MoveForward(float Value);
 
 	/** Called for side to side input */
-	void MoveRight(float Value);
+	void PlayerMoveRight();
+	void PlayerMoveLeft();
+
+
 
 	/** 
 	 * Called via input to turn at a given rate. 

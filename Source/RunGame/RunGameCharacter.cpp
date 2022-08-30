@@ -79,8 +79,11 @@ void ARunGameCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	PlayerInputComponent->BindAction("MoveRight", IE_Pressed, this, &ARunGameCharacter::PlayerMoveRight);
+	PlayerInputComponent->BindAction("MoveLeft", IE_Pressed, this, &ARunGameCharacter::PlayerMoveLeft);
+
 	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &ARunGameCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("Move Right / Left", this, &ARunGameCharacter::MoveRight);
+	//PlayerInputComponent->BindAxis("Move Right / Left", this, &ARunGameCharacter::MoveRight);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -131,17 +134,12 @@ void ARunGameCharacter::MoveForward(float Value)
 	}
 }
 
-void ARunGameCharacter::MoveRight(float Value)
+void ARunGameCharacter::PlayerMoveRight()
 {
-	if ( (Controller != nullptr) && (Value != 0.0f) )
-	{
-		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
-		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-		// add movement in that direction
-		AddMovementInput(Direction, Value * 10.0f);
-	}
+	AddActorLocalOffset(FVector(0.0f, -300.0f, 0));
+}
+
+void ARunGameCharacter::PlayerMoveLeft()
+{
+	AddActorLocalOffset(FVector(0.0f, 300.0f, 0));
 }
