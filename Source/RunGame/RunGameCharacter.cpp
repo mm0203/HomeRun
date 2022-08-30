@@ -6,10 +6,8 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
+#include "ScoreItem.h"
 #include "GameFramework/SpringArmComponent.h"
-
-//////////////////////////////////////////////////////////////////////////
-// ARunGameCharacter
 
 ARunGameCharacter::ARunGameCharacter()
 {
@@ -58,6 +56,7 @@ void ARunGameCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	OnActorBeginOverlap.AddDynamic(this, &ARunGameCharacter::OnOverlapBegin);
 }
 
 // Called every frame
@@ -66,11 +65,7 @@ void ARunGameCharacter::Tick(float DeltaTime)
 	AddMovementInput(FVector(1.0f, 0, 0), 1.0f);
 
 	Super::Tick(DeltaTime);
-
 }
-
-//////////////////////////////////////////////////////////////////////////
-// Input
 
 void ARunGameCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
@@ -82,56 +77,6 @@ void ARunGameCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	PlayerInputComponent->BindAction("MoveRight", IE_Pressed, this, &ARunGameCharacter::PlayerMoveRight);
 	PlayerInputComponent->BindAction("MoveLeft", IE_Pressed, this, &ARunGameCharacter::PlayerMoveLeft);
 
-	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &ARunGameCharacter::MoveForward);
-	//PlayerInputComponent->BindAxis("Move Right / Left", this, &ARunGameCharacter::MoveRight);
-
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	PlayerInputComponent->BindAxis("Turn Right / Left Mouse", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("Turn Right / Left Gamepad", this, &ARunGameCharacter::TurnAtRate);
-	PlayerInputComponent->BindAxis("Look Up / Down Mouse", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("Look Up / Down Gamepad", this, &ARunGameCharacter::LookUpAtRate);
-
-	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &ARunGameCharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &ARunGameCharacter::TouchStopped);
-}
-
-void ARunGameCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
-{
-	Jump();
-}
-
-void ARunGameCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-	StopJumping();
-}
-
-void ARunGameCharacter::TurnAtRate(float Rate)
-{
-	// calculate delta for this frame from the rate information
-	AddControllerYawInput(Rate * TurnRateGamepad * GetWorld()->GetDeltaSeconds());
-}
-
-void ARunGameCharacter::LookUpAtRate(float Rate)
-{
-	// calculate delta for this frame from the rate information
-	AddControllerPitchInput(Rate * TurnRateGamepad * GetWorld()->GetDeltaSeconds());
-}
-
-void ARunGameCharacter::MoveForward(float Value)
-{
-	if ((Controller != nullptr) && (Value != 0.0f))
-	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
-	}
 }
 
 void ARunGameCharacter::PlayerMoveRight()
@@ -142,4 +87,14 @@ void ARunGameCharacter::PlayerMoveRight()
 void ARunGameCharacter::PlayerMoveLeft()
 {
 	AddActorLocalOffset(FVector(0.0f, 300.0f, 0));
+}
+
+void ARunGameCharacter::OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor)
+{
+	// ’Êí‚Ì‰a
+	if (OtherActor->ActorHasTag("ScoreItem"))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, "item");
+		Cast<AScoreItem>(OtherActor)->ToCatchItem();
+	}
 }

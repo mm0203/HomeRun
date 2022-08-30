@@ -13,5 +13,4 @@ UCLASS()
 class RUNGAME_API ALevelScript : public ALevelScriptActor
 {
 	GENERATED_BODY()
-	
 };

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/BoxComponent.h"
 #include "ObjectBase.generated.h"
 
 UCLASS()
@@ -12,15 +13,18 @@ class RUNGAME_API AObjectBase : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AObjectBase();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Collision)
+		UBoxComponent* CollisionComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = StaticMesh)
+		UStaticMeshComponent* StaticMeshComponent;
+
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 };

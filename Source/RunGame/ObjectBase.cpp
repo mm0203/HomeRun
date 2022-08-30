@@ -3,22 +3,28 @@
 
 #include "ObjectBase.h"
 
-// Sets default values
 AObjectBase::AObjectBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// カプセルコンポーネント(DoNotCreateDefaultSubobject可能)
+	CollisionComponent = CreateOptionalDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
+	CollisionComponent->SetCollisionProfileName(FName("OverlapAllDynamic"));
+
+	// メッシュコンポーネント
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
+	StaticMeshComponent->SetupAttachment(CollisionComponent);
+	StaticMeshComponent->SetCollisionProfileName(FName("NoCollision"), false);
+
+	Tags.Add(FName("Object"));
 }
 
-// Called when the game starts or when spawned
 void AObjectBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
 void AObjectBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
