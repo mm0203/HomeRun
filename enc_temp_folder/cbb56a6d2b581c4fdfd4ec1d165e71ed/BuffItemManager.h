@@ -25,7 +25,4 @@ public:
 
 	UFUNCTION()
 		void BuffEffect(int no);
-
-	UFUNCTION()
-		void PowerUpLift();
 };

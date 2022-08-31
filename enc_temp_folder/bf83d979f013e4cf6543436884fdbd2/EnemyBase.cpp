@@ -13,14 +13,6 @@ AEnemyBase::AEnemyBase()
 void AEnemyBase::BeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();
-	bool PowerUp = GameState->GetPowerUp();
-	if(PowerUp)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "EnemyDown");
-	}
-	else
-	{
-		GameState->ScoreAdd(-300);
-		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "PlayerDown");
-	}
+	GameState->ScoreAdd(-300);
+	GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "EnemyHit");
 }

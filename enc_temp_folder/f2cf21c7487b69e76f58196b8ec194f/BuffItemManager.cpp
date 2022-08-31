@@ -32,20 +32,6 @@ void ABuffItemManager::Tick(float DeltaTime)
 
 void ABuffItemManager::BuffEffect(int no)
 {
-	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
-	gameState->SetPowerUp(true);
-
-	FTimerHandle TimerHandle;
-	FTimerManager& TimerManager = GetWorldTimerManager();
-	TimerManager.SetTimer(TimerHandle, this, &ABuffItemManager::PowerUpLift, 1.0f, false, 3.0f);
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "PowerUp");
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "muteki");
 }
-
-void ABuffItemManager::PowerUpLift()
-{
-	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
-	gameState->SetPowerUp(false);
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "PowerLift");
-}
-
 

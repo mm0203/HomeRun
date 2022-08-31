@@ -8,7 +8,7 @@ AScoreItem::AScoreItem()
 {
 	Score = 0;
 
-	Tags.Add(FName("ScoreItem"));
+	Tags.Add(FName("BuffItem"));
 }
 
 void AScoreItem::ToCatchItem()

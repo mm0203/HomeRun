@@ -8,7 +8,6 @@ ARunGameStateBase::ARunGameStateBase()
 {
 	Score = 0;
 	ItemNo = 0;
-	PowerUp = false;
 }
 
 void ARunGameStateBase::ScoreAdd(int score)

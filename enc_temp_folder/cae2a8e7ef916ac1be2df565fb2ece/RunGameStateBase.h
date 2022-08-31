@@ -32,10 +32,8 @@ public:
 protected:
 	int Score;
 	int ItemNo;
-	bool PowerUp;
 
-public:
-	bool& GetPowerUp() { return PowerUp; }
-	void SetPowerUp(bool value) { PowerUp = value; }
+private:
+
 
 };

@@ -7,7 +7,6 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "ScoreItem.h"
 #include "BuffItem.h"
-#include "RunGameStateBase.h"
 #include "GameFramework/SpringArmComponent.h"
 
 ARunGameCharacter::ARunGameCharacter()

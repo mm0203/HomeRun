@@ -28,6 +28,7 @@ void AScoreManager::BeginPlay()
         ScoreInstance->UpdateScore(0);
     }
 
+
 	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
     if (gameState != nullptr)
     {
