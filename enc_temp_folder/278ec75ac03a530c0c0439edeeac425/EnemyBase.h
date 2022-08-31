@@ -3,25 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/BoxComponent.h"
+#include "ObjectBase.h"
 #include "EnemyBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RUNGAME_API AEnemyBase : public APawn
+class RUNGAME_API AEnemyBase : public AObjectBase
 {
 	GENERATED_BODY()
 
 public:
 	AEnemyBase();
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Collision)
-		UBoxComponent* CollisionComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = StaticMesh)
-		UStaticMeshComponent* StaticMeshComponent;
 
 	// è’ìÀä÷êî
 	UFUNCTION()

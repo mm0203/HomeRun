@@ -6,21 +6,37 @@
 
 AEnemyBase::AEnemyBase()
 {
+	PrimaryActorTick.bCanEverTick = true;
+
+	// カプセルコンポーネント(DoNotCreateDefaultSubobject可能)
+	CollisionComponent = CreateOptionalDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
+	CollisionComponent->SetCollisionProfileName(FName("OverlapAllDynamic"));
+
+	// メッシュコンポーネント
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
+	StaticMeshComponent->SetupAttachment(CollisionComponent);
+	StaticMeshComponent->SetCollisionProfileName(FName("NoCollision"), false);
+
 	Tags.Add(FName("Enemy"));
+
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AEnemyBase::BeginOverlap);
 }
 
 void AEnemyBase::BeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();
-	bool PowerUp = GameState->GetPowerUp();
-	if(PowerUp)
+	if (OtherActor->ActorHasTag("Player"))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "EnemyDown");
-	}
-	else
-	{
-		GameState->ScoreAdd(-300);
-		GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "PlayerDown");
+		auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();
+		bool PowerUp = GameState->GetPowerUp();
+
+		if (PowerUp)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "EnemyDown");
+		}
+		else
+		{
+			GameState->ScoreAdd(-300);
+			GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "PlayerDown");
+		}
 	}
 }

@@ -27,7 +27,6 @@ public:
 	float TurnRateGamepad;
 
 protected:
-	virtual void BeginPlay() override;
 
 	// ˆÚ“®
 	void PlayerMoveRight();
@@ -37,6 +36,7 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 public:
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()

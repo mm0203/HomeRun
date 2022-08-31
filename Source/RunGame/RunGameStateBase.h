@@ -33,9 +33,12 @@ protected:
 	int Score;
 	int ItemNo;
 	bool PowerUp;
+	int Lane;
 
 public:
 	bool& GetPowerUp() { return PowerUp; }
 	void SetPowerUp(bool value) { PowerUp = value; }
 
+	int& GetLane() { return Lane; }
+	void SetLane(int value) { Lane = value; }
 };

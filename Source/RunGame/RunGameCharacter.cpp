@@ -10,6 +10,12 @@
 #include "RunGameStateBase.h"
 #include "GameFramework/SpringArmComponent.h"
 
+namespace MaxPlayerLane
+{
+	constexpr  int MaxRightLane = 5;
+	constexpr int MaxLeftLane = 0;
+}
+
 ARunGameCharacter::ARunGameCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -55,6 +61,9 @@ void ARunGameCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
+	PlayerLane = gameState->GetLane();
+
 	OnActorBeginOverlap.AddDynamic(this, &ARunGameCharacter::OnOverlapBegin);
 }
 
@@ -80,12 +89,24 @@ void ARunGameCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 
 void ARunGameCharacter::PlayerMoveRight()
 {
-	AddActorLocalOffset(FVector(0.0f, -300.0f, 0));
+	// レーンの端なら移動できない
+	if (PlayerLane < MaxPlayerLane::MaxRightLane)
+	{
+		// レーンの移動
+		PlayerLane += 1;
+		AddActorLocalOffset(FVector(0.0f, 300.0f, 0));
+	}
 }
 
 void ARunGameCharacter::PlayerMoveLeft()
 {
-	AddActorLocalOffset(FVector(0.0f, 300.0f, 0));
+	// レーンの端なら移動できない
+	if (PlayerLane > MaxPlayerLane::MaxLeftLane)
+	{
+		// レーンの移動
+		PlayerLane -= 1;
+		AddActorLocalOffset(FVector(0.0f, -300.0f, 0));
+	}
 }
 
 void ARunGameCharacter::OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor)

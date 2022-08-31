@@ -9,6 +9,7 @@ ARunGameStateBase::ARunGameStateBase()
 	Score = 0;
 	ItemNo = 0;
 	PowerUp = false;
+	Lane = 2;
 }
 
 void ARunGameStateBase::ScoreAdd(int score)

@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "ScoreItem.h"
 #include "BuffItem.h"
+#include "RunGameStateBase.h"
 #include "GameFramework/SpringArmComponent.h"
 
 ARunGameCharacter::ARunGameCharacter()
@@ -54,6 +55,9 @@ void ARunGameCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
+	PlayerLane = gameState->GetLane();
+
 	OnActorBeginOverlap.AddDynamic(this, &ARunGameCharacter::OnOverlapBegin);
 }
 
@@ -79,12 +83,20 @@ void ARunGameCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 
 void ARunGameCharacter::PlayerMoveRight()
 {
-	AddActorLocalOffset(FVector(0.0f, -300.0f, 0));
+	if (PlayerLane > 0)
+	{
+		PlayerLane += 1;
+		AddActorLocalOffset(FVector(0.0f, -300.0f, 0));
+	}
 }
 
 void ARunGameCharacter::PlayerMoveLeft()
 {
-	AddActorLocalOffset(FVector(0.0f, 300.0f, 0));
+	if (PlayerLane < 6)
+	{
+		PlayerLane -= 1;
+		AddActorLocalOffset(FVector(0.0f, 300.0f, 0));
+	}
 }
 
 void ARunGameCharacter::OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor)

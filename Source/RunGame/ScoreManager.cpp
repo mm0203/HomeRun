@@ -17,7 +17,6 @@ void AScoreManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-
     TSubclassOf<UUserWidget> WidgetClass;
     WidgetClass = TSoftClassPtr<UUserWidget>(FSoftObjectPath(TEXT("/Game/ThirdPerson/Blueprints/WBP/WBP_Score.WBP_Score_C"))).LoadSynchronous();
     ScoreInstance = CreateWidget<UScoreItemWidget>(GetWorld(), WidgetClass);
