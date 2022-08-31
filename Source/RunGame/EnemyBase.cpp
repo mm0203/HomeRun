@@ -32,6 +32,7 @@ void AEnemyBase::BeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 		if (PowerUp)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "EnemyDown");
+			Destroy();
 		}
 		else
 		{

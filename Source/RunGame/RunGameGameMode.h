@@ -13,6 +13,8 @@ class ARunGameGameMode : public AGameModeBase
 
 public:
 	ARunGameGameMode();
+
+
 };
 
 

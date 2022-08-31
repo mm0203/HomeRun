@@ -30,6 +30,5 @@ void AMoveEnemy::Tick(float DeltaTime)
 void AMoveEnemy::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	// “G‚Ì’µ‚Ë•Ô‚è
-	GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Red, "EnemyWall");
 	MoveVelocity = UKismetMathLibrary::MirrorVectorByNormal(MoveVelocity, -MoveVelocity);
 }
