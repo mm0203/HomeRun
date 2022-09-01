@@ -26,8 +26,6 @@ ARunGameCharacter::ARunGameCharacter()
 	// set our turn rate for input
 	TurnRateGamepad = 50.f;
 
-	MoveSpeed = FVector(0, 0, 0);
-
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -72,10 +70,7 @@ void ARunGameCharacter::BeginPlay()
 // Called every frame
 void ARunGameCharacter::Tick(float DeltaTime)
 {
-	//AddMovementInput(FVector(1.0f, 0, 0), 1.0f);
-
-	AddActorWorldOffset(MoveSpeed);
-
+	AddMovementInput(FVector(1.0f, 0, 0), 1.0f);
 
 	Super::Tick(DeltaTime);
 }

@@ -26,10 +26,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Input)
 	float TurnRateGamepad;
 
-	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Move)
-		FVector MoveSpeed;
-
 protected:
 	virtual void BeginPlay() override;
 
