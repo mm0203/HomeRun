@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "RunGameCharacter.generated.h"
 
+class ARunGameGameMode;
+
 UCLASS(config=Game)
 class ARunGameCharacter : public ACharacter
 {
@@ -25,10 +27,6 @@ public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Input)
 	float TurnRateGamepad;
-
-	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Move)
-		FVector MoveSpeed;
 
 protected:
 	virtual void BeginPlay() override;
@@ -53,5 +51,8 @@ public:
 
 private:
 	int PlayerLane;
+	FVector MoveSpeed;
+	bool GameStart;
+	ARunGameGameMode* GameMode;
 };
 

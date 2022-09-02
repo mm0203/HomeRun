@@ -12,4 +12,7 @@ ARunGameGameMode::ARunGameGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
+	MoveSpeed = FVector(0, 0, 0);
+	GameOver = true;
 }

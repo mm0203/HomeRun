@@ -14,7 +14,11 @@ class ARunGameGameMode : public AGameModeBase
 public:
 	ARunGameGameMode();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool GameOver;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FVector MoveSpeed;
 };
 
 

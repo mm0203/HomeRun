@@ -6,11 +6,25 @@
 #include "Engine/LevelScriptActor.h"
 #include "LevelScript.generated.h"
 
-/**
- * 
- */
+class ARunGameGameMode;
+
 UCLASS()
 class RUNGAME_API ALevelScript : public ALevelScriptActor
 {
 	GENERATED_BODY()
+
+public:
+	ALevelScript();
+
+protected:
+	virtual void BeginPlay() override;
+
+public:
+	virtual void Tick(float DeltaTime) override;
+
+private:
+	TArray<AActor*> FoundActors;
+	FVector MoveSpeed;
+	bool GameStart;
+	ARunGameGameMode* GameMode;
 };

@@ -8,6 +8,7 @@
 #include "ScoreItem.h"
 #include "BuffItem.h"
 #include "RunGameStateBase.h"
+#include "RunGameGameMode.h"
 #include "GameFramework/SpringArmComponent.h"
 
 namespace MaxPlayerLane
@@ -25,8 +26,6 @@ ARunGameCharacter::ARunGameCharacter()
 
 	// set our turn rate for input
 	TurnRateGamepad = 50.f;
-
-	MoveSpeed = FVector(0, 0, 0);
 
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
@@ -66,15 +65,23 @@ void ARunGameCharacter::BeginPlay()
 	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
 	PlayerLane = gameState->GetLane();
 
+	GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
+	MoveSpeed = GameMode->MoveSpeed;
+
 	OnActorBeginOverlap.AddDynamic(this, &ARunGameCharacter::OnOverlapBegin);
 }
 
 // Called every frame
 void ARunGameCharacter::Tick(float DeltaTime)
 {
-	//AddMovementInput(FVector(1.0f, 0, 0), 1.0f);
+	//auto GameMode = GetWorld()->GetGameState<ARunGameGameMode>();
 
-	AddActorWorldOffset(MoveSpeed);
+	GameStart = GameMode->GameOver;
+
+	if (!GameStart)
+	{
+		AddActorWorldOffset(MoveSpeed);
+	}
 
 
 	Super::Tick(DeltaTime);
