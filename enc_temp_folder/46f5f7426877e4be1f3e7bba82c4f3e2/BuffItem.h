@@ -16,20 +16,13 @@ class RUNGAME_API ABuffItem : public AObjectBase
 public:
 	ABuffItem();
 
-	UFUNCTION()
-		void ToCatchItem();
-
-protected:
 	virtual void BeginPlay() override;
 
-public:
-	virtual void Tick(float DeltaTime) override;
+	UFUNCTION()
+		void ToCatchItem();
 
 private:
 	// Žæ“¾Žž‚ÌƒXƒRƒA
 	UPROPERTY(EditAnywhere)
 		int ItemNo;
-
-	UPROPERTY(EditAnywhere, Category = "Rotation")
-		FRotator RotationValue;
 };

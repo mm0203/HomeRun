@@ -7,11 +7,7 @@
 
 ABuffItem::ABuffItem()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
 	ItemNo = 0;
-
-	RotationValue = FRotator(.0f, .0f, .0f);
 
 	Tags.Add(FName("BuffItem"));
 }
@@ -19,13 +15,6 @@ ABuffItem::ABuffItem()
 void ABuffItem::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-// Called every frame
-void ABuffItem::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	AddActorLocalRotation(RotationValue * DeltaTime, false, 0, ETeleportType::TeleportPhysics);
 }
 
 void ABuffItem::ToCatchItem()

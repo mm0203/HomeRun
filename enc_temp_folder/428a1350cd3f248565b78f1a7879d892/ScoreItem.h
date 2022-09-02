@@ -19,19 +19,8 @@ public:
 	UFUNCTION()
 		void ToCatchItem();
 
-protected:
-	virtual void BeginPlay() override;
-
-public:
-	virtual void Tick(float DeltaTime) override;
-
 private:
 	// Žæ“¾Žž‚ÌƒXƒRƒA
 	UPROPERTY(EditAnywhere)
 	int Score;
-
-	FVector startLocation;
-	float velocity;
-
-
 };
