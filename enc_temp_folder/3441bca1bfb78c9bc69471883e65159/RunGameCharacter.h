@@ -4,9 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Components/PointLightComponent.h"
-#include "RunGameStateBase.h"
-#include "RunGameGameMode.h"
 #include "RunGameCharacter.generated.h"
 
 class ARunGameGameMode;
@@ -24,19 +21,12 @@ class ARunGameCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
-
 public:
 	ARunGameCharacter();
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Input)
 	float TurnRateGamepad;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect")
-		UParticleSystem* Particle;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		UPointLightComponent* PointLightComponent;
 
 protected:
 	virtual void BeginPlay() override;
@@ -64,6 +54,5 @@ private:
 	FVector MoveSpeed;
 	bool GameStart;
 	ARunGameGameMode* GameMode;
-	ARunGameStateBase* GameState;
 };
 

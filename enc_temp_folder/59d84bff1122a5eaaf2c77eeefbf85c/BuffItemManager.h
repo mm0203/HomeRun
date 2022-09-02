@@ -6,7 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "BuffItemManager.generated.h"
 
-
 UCLASS()
 class RUNGAME_API ABuffItemManager : public AActor
 {

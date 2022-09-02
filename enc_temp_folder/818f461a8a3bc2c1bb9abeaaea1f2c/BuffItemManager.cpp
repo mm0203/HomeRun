@@ -7,10 +7,12 @@
 // Sets default values
 ABuffItemManager::ABuffItemManager()
 {
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 
+// Called when the game starts or when spawned
 void ABuffItemManager::BeginPlay()
 {
 	Super::BeginPlay();
@@ -30,11 +32,9 @@ void ABuffItemManager::Tick(float DeltaTime)
 
 void ABuffItemManager::BuffEffect(int no)
 {
-	// パワーアップ
 	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
 	gameState->SetPowerUp(true);
 
-	// 3秒後にバフ効果削除
 	FTimerHandle TimerHandle;
 	FTimerManager& TimerManager = GetWorldTimerManager();
 	TimerManager.SetTimer(TimerHandle, this, &ABuffItemManager::PowerUpLift, 1.0f, false, 3.0f);
@@ -43,7 +43,6 @@ void ABuffItemManager::BuffEffect(int no)
 
 void ABuffItemManager::PowerUpLift()
 {
-	// バフ効果消える
 	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
 	gameState->SetPowerUp(false);
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "PowerLift");

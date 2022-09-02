@@ -7,7 +7,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "ScoreItem.h"
 #include "BuffItem.h"
-#include "Kismet/GameplayStatics.h"
+#include "RunGameStateBase.h"
+#include "RunGameGameMode.h"
 #include "GameFramework/SpringArmComponent.h"
 
 namespace MaxPlayerLane
@@ -54,15 +55,6 @@ ARunGameCharacter::ARunGameCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-
-	// バフ時のライト設定
-	PointLightComponent = CreateOptionalDefaultSubobject<UPointLightComponent>(TEXT("PointLightComponent"));
-	PointLightComponent->SetupAttachment(RootComponent);
-	PointLightComponent->SetVisibility(false);
-	PointLightComponent->Intensity = 15000.0f;
-	PointLightComponent->AttenuationRadius = 300.0f;
-	PointLightComponent->SetLightColor(FColor::Yellow);
-
 	Tags.Add(FName("Player"));
 }
 
@@ -70,8 +62,8 @@ void ARunGameCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameState = GetWorld()->GetGameState<ARunGameStateBase>();
-	PlayerLane = GameState->GetLane();
+	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
+	PlayerLane = gameState->GetLane();
 
 	GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
 	MoveSpeed = GameMode->MoveSpeed;
@@ -85,17 +77,6 @@ void ARunGameCharacter::Tick(float DeltaTime)
 	//auto GameMode = GetWorld()->GetGameState<ARunGameGameMode>();
 
 	GameStart = GameMode->GameOver;
-
-	bool Buff = GameState->GetPowerUp();
-
-	if(Buff)
-	{
-		PointLightComponent->SetVisibility(true);
-	}
-	else
-	{
-		PointLightComponent->SetVisibility(false);
-	}
 
 	if (!GameStart)
 	{
@@ -142,17 +123,13 @@ void ARunGameCharacter::PlayerMoveLeft()
 
 void ARunGameCharacter::OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor)
 {
-
 	if (OtherActor->ActorHasTag("ScoreItem"))
 	{
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, GetActorLocation(), FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
-
 		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, "ScoreItem");
 		Cast<AScoreItem>(OtherActor)->ToCatchItem();
 	}
 	if (OtherActor->ActorHasTag("BuffItem"))
 	{
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, GetActorLocation(), FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
 		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, "BuffItem");
 		Cast<ABuffItem>(OtherActor)->ToCatchItem();
 	}
