@@ -3,6 +3,8 @@
 
 #include "EnemyBase.h"
 #include "RunGameStateBase.h"
+#include "Kismet/GameplayStatics.h"
+#include "RunGameCharacter.h"
 
 AEnemyBase::AEnemyBase()
 {
@@ -32,12 +34,22 @@ void AEnemyBase::BeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 		if (PowerUp)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "EnemyDown");
-			Destroy();
 		}
 		else
 		{
 			GameState->ScoreAdd(-300);
+			// エフェクト発生
+
+			APlayerCameraManager* CameraManager = Cast<APlayerCameraManager>(UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0));
+			CameraManager->StartCameraShake(CameraShake);
+
+			ARunGameCharacter* MyCharacter = Cast<ARunGameCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
+			FVector Location = MyCharacter->GetActorLocation();
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, Location, FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
+
 			GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "PlayerDown");
 		}
+
+		Destroy();
 	}
 }

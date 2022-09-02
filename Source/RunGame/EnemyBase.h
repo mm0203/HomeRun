@@ -23,7 +23,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = StaticMesh)
 		UStaticMeshComponent* StaticMeshComponent;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
+		UParticleSystem* Particle;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CameraShake")
+		TSubclassOf<UCameraShakeBase> CameraShake;
+
 	// 衝突関数
 	UFUNCTION()
 		void BeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+private:
+	// パーティクル
+
 };
