@@ -46,4 +46,7 @@ public:
 
 	int& GetLane() { return Lane; }
 	void SetLane(int value) { Lane = value; }
+
+	int& GetLife() { return Life; }
+	void SetLife(int value) { Life = value; }
 };

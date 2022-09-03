@@ -121,7 +121,7 @@ void ARunGameCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 void ARunGameCharacter::PlayerMoveRight()
 {
 	// レーンの端なら移動できない
-	if (!GameStart && PlayerLane < MaxPlayerLane::MaxRightLane)
+	if (PlayerLane < MaxPlayerLane::MaxRightLane)
 	{
 		// レーンの移動
 		PlayerLane += 1;
@@ -132,7 +132,7 @@ void ARunGameCharacter::PlayerMoveRight()
 void ARunGameCharacter::PlayerMoveLeft()
 {
 	// レーンの端なら移動できない
-	if (!GameStart && PlayerLane > MaxPlayerLane::MaxLeftLane)
+	if (PlayerLane > MaxPlayerLane::MaxLeftLane)
 	{
 		// レーンの移動
 		PlayerLane -= 1;

@@ -38,6 +38,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		UPointLightComponent* PointLightComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool GameStart;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -62,7 +65,6 @@ public:
 private:
 	int PlayerLane;
 	FVector MoveSpeed;
-	bool GameStart;
 	ARunGameGameMode* GameMode;
 	ARunGameStateBase* GameState;
 };
