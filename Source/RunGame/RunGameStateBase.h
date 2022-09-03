@@ -19,21 +19,26 @@ public:
 	// マルチキャストデリゲート
 	DECLARE_MULTICAST_DELEGATE_OneParam(FScoreUpdateDelegate, int);
 	DECLARE_MULTICAST_DELEGATE_OneParam(FItemBuffDelegate, int);
+	DECLARE_MULTICAST_DELEGATE_OneParam(FLifeDelegate, int);
 
 	// スコア加算関数
 	void ScoreAdd(int score);
 	// アイテムバフ関数
 	void ItemBuff(int no);
+	// ライフ加減関数
+	void LifeCalc(int life);
 
 	// デリゲート作成
 	FScoreUpdateDelegate ScoreUpdateDelegate;
 	FItemBuffDelegate ItemBuffDelegate;
+	FLifeDelegate LifeDelegate;
 
 protected:
 	int Score;
 	int ItemNo;
 	bool PowerUp;
 	int Lane;
+	int Life;
 
 public:
 	bool& GetPowerUp() { return PowerUp; }

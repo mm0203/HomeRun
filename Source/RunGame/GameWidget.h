@@ -5,26 +5,29 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
-#include "ScoreItemWidget.generated.h"
+#include "GameWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RUNGAME_API UScoreItemWidget : public UUserWidget
+class RUNGAME_API UGameWidget : public UUserWidget
 {
 	GENERATED_BODY()
+
 protected:
     // テキスト保存用
-    UTextBlock* TextBlock;
+    UTextBlock* ScoreTextBlock;
+    UTextBlock* LifeTextBlock;
 
 public:
-    UScoreItemWidget(const FObjectInitializer& ObjectInitializer);
+    UGameWidget(const FObjectInitializer& ObjectInitializer);
 
 protected:
     virtual void NativeOnInitialized() override;
 
 public:
-    // スコア更新関数
+    // UI更新関数
+    void UpdateLife(int life);
     void UpdateScore(int score);
 };

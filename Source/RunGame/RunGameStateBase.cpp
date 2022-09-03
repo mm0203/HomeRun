@@ -2,7 +2,6 @@
 
 
 #include "RunGameStateBase.h"
-#include "Kismet/KismetStringLibrary.h"
 
 ARunGameStateBase::ARunGameStateBase()
 {
@@ -10,24 +9,27 @@ ARunGameStateBase::ARunGameStateBase()
 	ItemNo = 0;
 	PowerUp = false;
 	Lane = 2;
+	Life = 3;
 }
 
 void ARunGameStateBase::ScoreAdd(int score)
 {
 	// スコア加算
 	Score += score;
-
-	// 加算されたスコアを渡す
 	ScoreUpdateDelegate.Broadcast(Score);
-	FString cnt = UKismetStringLibrary::Conv_IntToString(Score);
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, cnt);
-
 }
 
 void ARunGameStateBase::ItemBuff(int no)
 {
+	// アイテム取得
 	ItemNo = no;
 	ItemBuffDelegate.Broadcast(ItemNo);
-	FString cnt = UKismetStringLibrary::Conv_IntToString(ItemNo);
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, cnt);
 }
+
+void ARunGameStateBase::LifeCalc(int life)
+{
+	// ライフ加減
+	Life -= life;
+	LifeDelegate.Broadcast(Life);
+}
+

@@ -18,10 +18,10 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Collision)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision)
 		UBoxComponent* CollisionComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = StaticMesh)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = StaticMesh)
 		UStaticMeshComponent* StaticMeshComponent;
 
 public:	

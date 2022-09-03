@@ -37,9 +37,10 @@ void AEnemyBase::BeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 		}
 		else
 		{
-			GameState->ScoreAdd(-300);
-			// エフェクト発生
+			// 体力現象
+			GameState->LifeCalc(1);
 
+			// エフェクト発生
 			APlayerCameraManager* CameraManager = Cast<APlayerCameraManager>(UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0));
 			CameraManager->StartCameraShake(CameraShake);
 
