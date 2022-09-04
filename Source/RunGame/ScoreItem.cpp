@@ -3,6 +3,7 @@
 
 #include "ScoreItem.h"
 #include "RunGameStateBase.h"
+#include "Kismet/GameplayStatics.h"
 
 AScoreItem::AScoreItem()
 {
@@ -16,7 +17,7 @@ void AScoreItem::BeginPlay()
 {
     Super::BeginPlay();
 
-    velocity = 1.0f;
+    velocity = 0.8f;
     startLocation = this->GetActorLocation();
 }
 
@@ -27,7 +28,7 @@ void AScoreItem::Tick(float DeltaTime)
     
     FVector location = this->GetActorLocation();
     location.Z += velocity;
-    if (location.Z < startLocation.Z || location.Z > startLocation.Z + 30.0f) 
+    if (location.Z < startLocation.Z || location.Z > startLocation.Z + 40.0f) 
     {
         velocity = -velocity;
     }
@@ -37,7 +38,7 @@ void AScoreItem::Tick(float DeltaTime)
 void AScoreItem::ToCatchItem()
 {
 	// ‰¹
-	//UGameplayStatics::PlaySound2D(this, ConsumptionSound);
+	UGameplayStatics::PlaySound2D(this, ScoreSound);
 
 	// ƒXƒRƒA‚ð‰ÁŽZ
 	auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();

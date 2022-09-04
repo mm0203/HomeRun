@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ObjectBase.h"
+#include "Sound/SoundCue.h"
 #include "BuffItem.generated.h"
 
 /**
@@ -18,6 +19,9 @@ public:
 
 	UFUNCTION()
 		void ToCatchItem();
+
+	UPROPERTY(EditAnywhere)
+		USoundCue* BuffSound;
 
 protected:
 	virtual void BeginPlay() override;

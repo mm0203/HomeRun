@@ -23,6 +23,8 @@ void ARunGameGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	GameState = GetWorld()->GetGameState<ARunGameStateBase>();
+
+	UGameplayStatics::PlaySound2D(this, GameSound);
 }
 
 // Called every frame
@@ -32,6 +34,13 @@ void ARunGameGameMode::Tick(float DeltaTime)
 
 	if(GameState->GetLife() <= 0)
 	{
-		UGameplayStatics::OpenLevel(GetWorld(), OpenLevel);
+		GameOver = true;
+		FTimerHandle _TimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(_TimerHandle, this, &ARunGameGameMode::OpenLevelFunc, 1.0f, false, 2.0f);
 	}
+}
+
+void ARunGameGameMode::OpenLevelFunc()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), OpenLevel);
 }

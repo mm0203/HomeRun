@@ -146,14 +146,11 @@ void ARunGameCharacter::OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor)
 	if (OtherActor->ActorHasTag("ScoreItem"))
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, GetActorLocation(), FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
-
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, "ScoreItem");
 		Cast<AScoreItem>(OtherActor)->ToCatchItem();
 	}
 	if (OtherActor->ActorHasTag("BuffItem"))
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, GetActorLocation(), FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, "BuffItem");
 		Cast<ABuffItem>(OtherActor)->ToCatchItem();
 	}
 }

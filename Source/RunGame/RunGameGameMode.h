@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "RunGameStateBase.h"
+#include "Sound/SoundCue.h"
 #include "RunGameGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -25,6 +26,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FName OpenLevel;
+
+	UPROPERTY(EditAnywhere)
+		USoundCue* GameSound;
 protected:
 	virtual void BeginPlay() override;
 
@@ -34,6 +38,9 @@ public:
 	FGameOverDelegate LifeDelegate;
 
 	ARunGameStateBase* GameState;
+
+	UFUNCTION()
+		void OpenLevelFunc();
 };
 
 

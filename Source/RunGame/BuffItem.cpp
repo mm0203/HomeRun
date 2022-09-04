@@ -2,8 +2,8 @@
 
 
 #include "BuffItem.h"
-
 #include "RunGameStateBase.h"
+#include "Kismet/GameplayStatics.h"
 
 ABuffItem::ABuffItem()
 {
@@ -31,7 +31,7 @@ void ABuffItem::Tick(float DeltaTime)
 void ABuffItem::ToCatchItem()
 {
 	// ‰¹
-	//UGameplayStatics::PlaySound2D(this, ConsumptionSound);
+	UGameplayStatics::PlaySound2D(this, BuffSound);
 
 	auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();
 	GameState->ItemBuff(ItemNo);

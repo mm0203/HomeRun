@@ -32,7 +32,7 @@ void UGameWidget::NativeOnInitialized()
 void UGameWidget::UpdateLife(int score)
 {
     // テキスト + スコア表示
-    FString str = TEXT("Life:") + FString::FromInt(score);
+    FString str = FString::FromInt(score);
 
     if (LifeTextBlock)
     {
@@ -44,7 +44,7 @@ void UGameWidget::UpdateLife(int score)
 void UGameWidget::UpdateScore(int score)
 {
     // テキスト + スコア表示
-    FString str = TEXT("Score:") + FString::FromInt(score);
+    FString str = FString::FromInt(score);
 
     if (ScoreTextBlock)
     {
