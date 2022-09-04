@@ -126,6 +126,9 @@ void ARunGameCharacter::PlayerMoveRight()
 		// ƒŒ[ƒ“‚ÌˆÚ“®
 		PlayerLane += 1;
 		AddActorLocalOffset(FVector(0.0f, 300.0f, 0));
+
+		UGameplayStatics::PlaySound2D(this, RightMoveSound);
+		RightMoveSound->VolumeMultiplier = 2.0f;
 	}
 }
 
@@ -137,6 +140,9 @@ void ARunGameCharacter::PlayerMoveLeft()
 		// ƒŒ[ƒ“‚ÌˆÚ“®
 		PlayerLane -= 1;
 		AddActorLocalOffset(FVector(0.0f, -300.0f, 0));
+
+		UGameplayStatics::PlaySound2D(this, RightMoveSound);
+		RightMoveSound->VolumeMultiplier = 2.0f;
 	}
 }
 

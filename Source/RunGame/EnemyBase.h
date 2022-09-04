@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/BoxComponent.h"
+#include "Sound/SoundCue.h"
 #include "EnemyBase.generated.h"
 
 /**
@@ -28,6 +29,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
 		UParticleSystem* NoPowerUpParticle;
+
+	UPROPERTY(EditAnywhere)
+		USoundCue* PowerUpSound;
+
+	UPROPERTY(EditAnywhere)
+		USoundCue* NoPowerUpSound;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CameraShake")
 		TSubclassOf<UCameraShakeBase> CameraShake;

@@ -39,6 +39,7 @@ void AScoreItem::ToCatchItem()
 {
 	// ‰¹
 	UGameplayStatics::PlaySound2D(this, ScoreSound);
+    ScoreSound->VolumeMultiplier = 3.0f;
 
 	// ƒXƒRƒA‚ð‰ÁŽZ
 	auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();

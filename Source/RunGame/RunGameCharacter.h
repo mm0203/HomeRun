@@ -41,6 +41,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool GameStart;
 
+	UPROPERTY(EditAnywhere)
+		USoundCue* RunSound;
+
+	UPROPERTY(EditAnywhere)
+		USoundCue* RightMoveSound;
+
 protected:
 	virtual void BeginPlay() override;
 

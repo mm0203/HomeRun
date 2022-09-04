@@ -32,6 +32,7 @@ void ABuffItem::ToCatchItem()
 {
 	// ‰¹
 	UGameplayStatics::PlaySound2D(this, BuffSound);
+	BuffSound->VolumeMultiplier = 3.0f;
 
 	auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();
 	GameState->ItemBuff(ItemNo);
