@@ -41,6 +41,7 @@ protected:
 	int Life;
 
 public:
+	UFUNCTION(BlueprintCallable)
 	bool& GetPowerUp() { return PowerUp; }
 	void SetPowerUp(bool value) { PowerUp = value; }
 

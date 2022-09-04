@@ -31,24 +31,25 @@ void AEnemyBase::BeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 		auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();
 		bool PowerUp = GameState->GetPowerUp();
 
+		// カメラ揺れ
+		APlayerCameraManager* CameraManager = Cast<APlayerCameraManager>(UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0));
+		CameraManager->StartCameraShake(CameraShake);
+
+		// プレイヤーの位置
+		ARunGameCharacter* MyCharacter = Cast<ARunGameCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
+		FVector Location = MyCharacter->GetActorLocation();
+
 		if (PowerUp)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "EnemyDown");
+			// エフェクト発生
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PowerUpParticle, Location, FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
 		}
 		else
 		{
 			// 体力現象
 			GameState->LifeCalc(1);
-
 			// エフェクト発生
-			APlayerCameraManager* CameraManager = Cast<APlayerCameraManager>(UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0));
-			CameraManager->StartCameraShake(CameraShake);
-
-			ARunGameCharacter* MyCharacter = Cast<ARunGameCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
-			FVector Location = MyCharacter->GetActorLocation();
-			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, Location, FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
-
-			GEngine->AddOnScreenDebugMessage(-1, 4.0f, FColor::Yellow, "PlayerDown");
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), NoPowerUpParticle, Location, FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
 		}
 
 		Destroy();

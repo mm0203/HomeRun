@@ -24,7 +24,10 @@ public:
 		UStaticMeshComponent* StaticMeshComponent;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
-		UParticleSystem* Particle;
+		UParticleSystem* PowerUpParticle;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effects")
+		UParticleSystem* NoPowerUpParticle;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CameraShake")
 		TSubclassOf<UCameraShakeBase> CameraShake;

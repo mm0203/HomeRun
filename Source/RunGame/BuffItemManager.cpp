@@ -38,7 +38,6 @@ void ABuffItemManager::BuffEffect(int no)
 	FTimerHandle TimerHandle;
 	FTimerManager& TimerManager = GetWorldTimerManager();
 	TimerManager.SetTimer(TimerHandle, this, &ABuffItemManager::PowerUpLift, 1.0f, false, 3.0f);
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "PowerUp");
 }
 
 void ABuffItemManager::PowerUpLift()
@@ -46,7 +45,6 @@ void ABuffItemManager::PowerUpLift()
 	// ƒoƒtŒø‰ÊÁ‚¦‚é
 	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
 	gameState->SetPowerUp(false);
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "PowerLift");
 }
 
 
