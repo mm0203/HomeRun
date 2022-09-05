@@ -7,14 +7,17 @@
 #include "Components/PointLightComponent.h"
 #include "RunGameStateBase.h"
 #include "RunGameGameMode.h"
+#include "AbilitySystemInterface.h"
 #include "RunGameCharacter.generated.h"
 
 class ARunGameGameMode;
 
 UCLASS(config=Game)
-class ARunGameCharacter : public ACharacter
+class ARunGameCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
+public:
+	ARunGameCharacter();
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -24,9 +27,13 @@ class ARunGameCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
+	// UAbilitySytemComponent
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
+	class UAbilitySystemComponent* AbilitySystem;
 
-public:
-	ARunGameCharacter();
+	// 保持するアビリティリスト
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Abilities)
+		TArray<TSubclassOf<class UGameplayAbility>> AbilityList;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Input)
@@ -50,6 +57,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void PossessedBy(AController* NewController) override;
+
 	// 移動
 	void PlayerMoveRight();
 	void PlayerMoveLeft();
@@ -63,15 +72,17 @@ public:
 	UFUNCTION()
 		void OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor);
 
-	/** Returns CameraBoom subobject **/
+	// getter
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	UAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystem; };
 
 private:
 	int PlayerLane;
 	FVector MoveSpeed;
 	ARunGameGameMode* GameMode;
 	ARunGameStateBase* GameState;
+
+
 };
 

@@ -8,6 +8,7 @@
 #include "ScoreItem.h"
 #include "BuffItem.h"
 #include "Kismet/GameplayStatics.h"
+#include "AbilitySystemComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 namespace MaxPlayerLane
@@ -63,6 +64,9 @@ ARunGameCharacter::ARunGameCharacter()
 	PointLightComponent->AttenuationRadius = 300.0f;
 	PointLightComponent->SetLightColor(FColor::Yellow);
 
+	// ability system component
+	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
+
 	Tags.Add(FName("Player"));
 }
 
@@ -75,6 +79,22 @@ void ARunGameCharacter::BeginPlay()
 
 	GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
 	MoveSpeed = GameMode->MoveSpeed;
+
+	if (AbilitySystem)
+	{
+		int32 inputID(0);
+		if (HasAuthority() && AbilityList.Num() > 0)
+		{
+			for (auto Ability : AbilityList) 
+			{
+				if (Ability)
+				{
+					AbilitySystem->GiveAbility(FGameplayAbilitySpec(Ability.GetDefaultObject(), 1, inputID++));
+				}
+			}
+		}
+		AbilitySystem->InitAbilityActorInfo(this, this);
+	}
 
 	OnActorBeginOverlap.AddDynamic(this, &ARunGameCharacter::OnOverlapBegin);
 }
@@ -159,4 +179,11 @@ void ARunGameCharacter::OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor)
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, GetActorLocation(), FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
 		Cast<ABuffItem>(OtherActor)->ToCatchItem();
 	}
+}
+
+void ARunGameCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	AbilitySystem->RefreshAbilityActorInfo();
 }
