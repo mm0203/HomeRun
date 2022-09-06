@@ -3,6 +3,7 @@
 
 #include "GameWidgetManager.h"
 #include "RunGameStateBase.h"
+#include "RunGameGameMode.h"
 
 // Sets default values
 AGameWidgetManager::AGameWidgetManager()
@@ -27,12 +28,13 @@ void AGameWidgetManager::BeginPlay()
         WidgetInstance->UpdateScore(0);
         WidgetInstance->UpdateLife(3);
     }
-
+    auto GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
     auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
     if (gameState != nullptr)
     {
         gameState->ScoreUpdateDelegate.AddUObject(WidgetInstance, &UGameWidget::UpdateScore);
         gameState->LifeDelegate.AddUObject(WidgetInstance, &UGameWidget::UpdateLife);
+        GameMode->GameStartDelegate.AddUObject(WidgetInstance, &UGameWidget::StartVisibility);
     }
 }
 

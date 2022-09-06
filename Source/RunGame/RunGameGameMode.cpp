@@ -22,7 +22,12 @@ ARunGameGameMode::ARunGameGameMode()
 void ARunGameGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
 	GameState = GetWorld()->GetGameState<ARunGameStateBase>();
+
+	// 3•bŒã‚ÉƒQ[ƒ€ŠJŽn
+	FTimerHandle _TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(_TimerHandle, this, &ARunGameGameMode::ToGameStart, 1.0f, false, 3.0f);
 
 	UGameplayStatics::PlaySound2D(this, GameSound);
 }
@@ -43,4 +48,10 @@ void ARunGameGameMode::Tick(float DeltaTime)
 void ARunGameGameMode::OpenLevelFunc()
 {
 	UGameplayStatics::OpenLevel(GetWorld(), OpenLevel);
+}
+
+void ARunGameGameMode::ToGameStart()
+{
+	GameOver = false;
+	GameStartDelegate.Broadcast();
 }

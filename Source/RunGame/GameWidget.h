@@ -19,6 +19,8 @@ protected:
     // テキスト保存用
     UTextBlock* ScoreTextBlock;
     UTextBlock* LifeTextBlock;
+    UTextBlock* StartTextBlock;
+
 
 public:
     UGameWidget(const FObjectInitializer& ObjectInitializer);
@@ -30,4 +32,5 @@ public:
     // UI更新関数
     void UpdateLife(int life);
     void UpdateScore(int score);
+    void StartVisibility();
 };
