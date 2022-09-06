@@ -5,17 +5,11 @@
 #include "RunGameStateBase.h"
 #include "RunGameGameMode.h"
 
-// Sets default values
 AGameWidgetManager::AGameWidgetManager()
 {
-    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-    PrimaryActorTick.bCanEverTick = true;
-
     WidgetInstance = nullptr;
 
 }
-
-// Called when the game starts or when spawned
 void AGameWidgetManager::BeginPlay()
 {
     Super::BeginPlay();
@@ -28,19 +22,17 @@ void AGameWidgetManager::BeginPlay()
         WidgetInstance->UpdateScore(0);
         WidgetInstance->UpdateLife(3);
     }
-    auto GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
+
     auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
-    if (gameState != nullptr)
+    if (gameState)
     {
         gameState->ScoreUpdateDelegate.AddUObject(WidgetInstance, &UGameWidget::UpdateScore);
         gameState->LifeDelegate.AddUObject(WidgetInstance, &UGameWidget::UpdateLife);
+    }
+
+    auto GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
+    if(GameMode)
+    {
         GameMode->GameStartDelegate.AddUObject(WidgetInstance, &UGameWidget::StartVisibility);
     }
-}
-
-// Called every frame
-void AGameWidgetManager::Tick(float DeltaTime)
-{
-    Super::Tick(DeltaTime);
-
 }

@@ -4,8 +4,6 @@
 #include "TitleWidget.h"
 
 #include "Kismet/KismetSystemLibrary.h"
-#include "Kismet/GameplayStatics.h"
-#include "Sound/SoundCue.h"
 
 UTitleWidget::UTitleWidget(const FObjectInitializer& ObjectInitializer)
     : UUserWidget(ObjectInitializer)

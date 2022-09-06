@@ -78,7 +78,8 @@ void ARunGameCharacter::BeginPlay()
 	PlayerLane = GameState->GetLane();
 
 	GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
-	MoveSpeed = GameMode->MoveSpeed;
+	GameMode->GameStartDelegate.AddUObject(this, &ARunGameCharacter::IsMove);
+	GameMode->GameEndDelegate.AddUObject(this, &ARunGameCharacter::IsMove);
 
 	if (AbilitySystem)
 	{
@@ -102,9 +103,9 @@ void ARunGameCharacter::BeginPlay()
 // Called every frame
 void ARunGameCharacter::Tick(float DeltaTime)
 {
-	//auto GameMode = GetWorld()->GetGameState<ARunGameGameMode>();
+	Super::Tick(DeltaTime);
 
-	GameStart = GameMode->GameOver;
+	GameStart = GameMode->GameStart;
 
 	bool Buff = GameState->GetPowerUp();
 
@@ -117,13 +118,7 @@ void ARunGameCharacter::Tick(float DeltaTime)
 		PointLightComponent->SetVisibility(false);
 	}
 
-	if (!GameStart)
-	{
-		AddActorWorldOffset(MoveSpeed);
-	}
-
-
-	Super::Tick(DeltaTime);
+	AddActorWorldOffset(MoveSpeed);
 }
 
 void ARunGameCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -165,6 +160,12 @@ void ARunGameCharacter::PlayerMoveLeft()
 		RightMoveSound->VolumeMultiplier = 2.0f;
 	}
 }
+
+void ARunGameCharacter::IsMove()
+{
+	MoveSpeed = GameMode->MoveSpeed;
+}
+
 
 void ARunGameCharacter::OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor)
 {

@@ -62,4 +62,5 @@ void UGameWidget::UpdateScore(int score)
 void UGameWidget::StartVisibility()
 {
     StartTextBlock->SetVisibility(ESlateVisibility::Hidden);
+    StartTextBlock = nullptr;
 }

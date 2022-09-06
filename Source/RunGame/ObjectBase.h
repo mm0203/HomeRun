@@ -23,8 +23,4 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = StaticMesh)
 		UStaticMeshComponent* StaticMeshComponent;
-
-public:	
-	virtual void Tick(float DeltaTime) override;
-
 };

@@ -5,8 +5,6 @@
 
 AObjectBase::AObjectBase()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
 	// カプセルコンポーネント(DoNotCreateDefaultSubobject可能)
 	CollisionComponent = CreateOptionalDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
 	CollisionComponent->SetCollisionProfileName(FName("OverlapAllDynamic"));
@@ -24,10 +22,3 @@ void AObjectBase::BeginPlay()
 	Super::BeginPlay();
 	
 }
-
-void AObjectBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-

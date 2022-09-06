@@ -49,9 +49,6 @@ public:
 	bool GameStart;
 
 	UPROPERTY(EditAnywhere)
-		USoundCue* RunSound;
-
-	UPROPERTY(EditAnywhere)
 		USoundCue* RightMoveSound;
 
 protected:
@@ -68,6 +65,9 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION()
+		void IsMove();
 
 	UFUNCTION()
 		void OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor);

@@ -7,8 +7,6 @@
 
 ABuffItem::ABuffItem()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
 	ItemNo = 0;
 
 	RotationValue = FRotator(.0f, .0f, .0f);

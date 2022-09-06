@@ -8,8 +8,6 @@
 
 AEnemyBase::AEnemyBase()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
 	// カプセルコンポーネント(DoNotCreateDefaultSubobject可能)
 	CollisionComponent = CreateOptionalDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
 	CollisionComponent->SetCollisionProfileName(FName("OverlapAllDynamic"));
@@ -45,8 +43,6 @@ void AEnemyBase::BeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PowerUpParticle, Location, FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
 			UGameplayStatics::PlaySound2D(this, PowerUpSound);
 			PowerUpSound->VolumeMultiplier = 3.0f;
-			
-			
 		}
 		else
 		{
@@ -56,6 +52,14 @@ void AEnemyBase::BeginOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), NoPowerUpParticle, Location, FRotator::ZeroRotator, FVector(2.0f, 2.0f, 2.0f));
 			UGameplayStatics::PlaySound2D(this, NoPowerUpSound);
 			NoPowerUpSound->VolumeMultiplier = 3.0f;
+
+			// HPが0
+			if(GameState->GetLife() <= 0)
+			{
+				// ゲーム終了の呼び出し
+				auto GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
+				GameMode->IsGameEnd();
+			}
 		}
 
 		Destroy();

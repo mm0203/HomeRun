@@ -5,7 +5,6 @@
 
 ATitleManager::ATitleManager()
 {
-	PrimaryActorTick.bCanEverTick = true;
 }
 
 void ATitleManager::BeginPlay()
@@ -22,12 +21,6 @@ void ATitleManager::BeginPlay()
         WidgetInstance->StartButton->OnClicked.AddDynamic(WidgetInstance, &UTitleWidget::OnStartClicked);
         WidgetInstance->ExitButton->OnClicked.AddDynamic(WidgetInstance, &UTitleWidget::OnExitClicked);
     }
-}
-
-void ATitleManager::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 void ATitleManager::OnStartClicked()

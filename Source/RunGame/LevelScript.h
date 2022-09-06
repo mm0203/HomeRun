@@ -22,6 +22,9 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION()
+		void IsMove();
+
 private:
 	TArray<AActor*> FoundActors;
 	FVector MoveSpeed;

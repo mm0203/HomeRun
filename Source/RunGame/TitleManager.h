@@ -19,8 +19,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	virtual void Tick(float DeltaTime) override;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Widget")
 		TSubclassOf<UUserWidget> WidgetClass;
 

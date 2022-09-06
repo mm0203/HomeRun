@@ -15,7 +15,8 @@ ARunGameGameMode::ARunGameGameMode()
 	}
 
 	MoveSpeed = FVector(0, 0, 0);
-	GameOver = true;
+	GameStart = true;
+	GameEnd = false;
 	OpenLevel = "\0";
 }
 
@@ -27,22 +28,35 @@ void ARunGameGameMode::BeginPlay()
 
 	// 3秒後にゲーム開始
 	FTimerHandle _TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(_TimerHandle, this, &ARunGameGameMode::ToGameStart, 1.0f, false, 3.0f);
+	GetWorld()->GetTimerManager().SetTimer(_TimerHandle, this, &ARunGameGameMode::IsGameStart, 1.0f, false, 3.0f);
 
 	UGameplayStatics::PlaySound2D(this, GameSound);
 }
 
-// Called every frame
-void ARunGameGameMode::Tick(float DeltaTime)
+void ARunGameGameMode::IsGameStart()
 {
-	Super::Tick(DeltaTime);
+	// ゲーム開始
+	GameStart = false;
+	// ゲーム開始時のデリゲート呼び出し
+	GameStartDelegate.Broadcast();
+}
 
-	if(GameState->GetLife() <= 0)
-	{
-		GameOver = true;
-		FTimerHandle _TimerHandle;
-		GetWorld()->GetTimerManager().SetTimer(_TimerHandle, this, &ARunGameGameMode::OpenLevelFunc, 1.0f, false, 2.0f);
-	}
+void ARunGameGameMode::IsGameEnd()
+{
+	GameStart = true;
+
+	// ゲーム終了フラグ
+	GameEnd = true;
+
+	// 移動付加
+	MoveSpeed = FVector(0, 0, 0);
+
+	// ゲーム終了時のデリゲート呼び出し
+	GameEndDelegate.Broadcast();
+
+	// ２秒後にシーン遷移
+	FTimerHandle _TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(_TimerHandle, this, &ARunGameGameMode::OpenLevelFunc, 1.0f, false, 2.0f);
 }
 
 void ARunGameGameMode::OpenLevelFunc()
@@ -50,8 +64,3 @@ void ARunGameGameMode::OpenLevelFunc()
 	UGameplayStatics::OpenLevel(GetWorld(), OpenLevel);
 }
 
-void ARunGameGameMode::ToGameStart()
-{
-	GameOver = false;
-	GameStartDelegate.Broadcast();
-}

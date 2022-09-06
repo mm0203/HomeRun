@@ -7,8 +7,6 @@
 // Sets default values
 ABuffItemManager::ABuffItemManager()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 void ABuffItemManager::BeginPlay()
@@ -19,13 +17,6 @@ void ABuffItemManager::BeginPlay()
 	{
 		gameState->ItemBuffDelegate.AddUObject(this, &ABuffItemManager::BuffEffect);
 	}
-}
-
-// Called every frame
-void ABuffItemManager::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 void ABuffItemManager::BuffEffect(int no)

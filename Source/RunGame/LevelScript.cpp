@@ -20,18 +20,20 @@ void ALevelScript::BeginPlay()
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACameraActor::StaticClass(), FoundActors);
 
 	GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
-	MoveSpeed = GameMode->MoveSpeed;
+	GameMode->GameStartDelegate.AddUObject(this, &ALevelScript::IsMove);
+	GameMode->GameEndDelegate.AddUObject(this, &ALevelScript::IsMove);
 }
 
 void ALevelScript::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	GameStart = GameMode->GameOver;
-
-	if (!GameStart)
-	{
-		FoundActors[0]->AddActorWorldOffset(MoveSpeed);
-	}
+	FoundActors[0]->AddActorWorldOffset(MoveSpeed);
 }
+
+void ALevelScript::IsMove()
+{
+	MoveSpeed = GameMode->MoveSpeed;
+}
+
 

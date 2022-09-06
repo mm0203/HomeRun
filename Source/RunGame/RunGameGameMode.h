@@ -17,9 +17,13 @@ public:
 	ARunGameGameMode();
 
 	DECLARE_MULTICAST_DELEGATE(FGameStartDelegate);
+	DECLARE_MULTICAST_DELEGATE(FGameEndDelegate);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool GameOver;
+		bool GameStart;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool GameEnd;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FVector MoveSpeed;
@@ -33,17 +37,21 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	virtual void Tick(float DeltaTime) override;
-
+	// ゲーム開始・終了デリゲート
 	FGameStartDelegate GameStartDelegate;
+	FGameEndDelegate GameEndDelegate;
 
 	ARunGameStateBase* GameState;
 
+	// シーン遷移関数
 	UFUNCTION()
 		void OpenLevelFunc();
-
+	// ゲーム開始時に呼ぶ関数
 	UFUNCTION(BlueprintCallable)
-		void ToGameStart();
+		void IsGameStart();
+	// ゲーム終了時に呼ぶ関数
+	UFUNCTION(BlueprintCallable)
+		void IsGameEnd();
 };
 
 
