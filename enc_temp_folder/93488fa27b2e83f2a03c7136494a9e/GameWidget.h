@@ -31,5 +31,4 @@ public:
     // UIXVŠÖ”
     void UpdateLife(int life);
     void UpdateScore(int score);
-    void GameStartVisibility();
 };

@@ -3,7 +3,7 @@
 
 #include "GameWidgetManager.h"
 #include "RunGameStateBase.h"
-#include "RunGameGameMode.h"
+
 // Sets default values
 AGameWidgetManager::AGameWidgetManager()
 {
@@ -29,12 +29,10 @@ void AGameWidgetManager::BeginPlay()
     }
 
     auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
-    auto GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
     if (gameState != nullptr)
     {
         gameState->ScoreUpdateDelegate.AddUObject(WidgetInstance, &UGameWidget::UpdateScore);
         gameState->LifeDelegate.AddUObject(WidgetInstance, &UGameWidget::UpdateLife);
-        GameMode->GameStartDelegate.AddUObject(WidgetInstance, &UGameWidget::GameStartVisibility);
     }
 }
 
@@ -42,4 +40,5 @@ void AGameWidgetManager::BeginPlay()
 void AGameWidgetManager::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+
 }

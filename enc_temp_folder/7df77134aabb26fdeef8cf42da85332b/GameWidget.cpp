@@ -27,12 +27,6 @@ void UGameWidget::NativeOnInitialized()
     {
         LifeTextBlock = pTextBlock;
     }
-
-    pTextBlock = Cast<UTextBlock>(GetWidgetFromName("GameStartText"));
-    if (pTextBlock)
-    {
-        GameStartTextBlock = pTextBlock;
-    }
 }
 
 void UGameWidget::UpdateLife(int score)
@@ -57,9 +51,4 @@ void UGameWidget::UpdateScore(int score)
         // テキストを設定
         ScoreTextBlock->SetText(FText::FromString(str));
     }
-}
-
-void UGameWidget::GameStartVisibility()
-{
-    GameStartTextBlock->SetVisibility(ESlateVisibility::Hidden);
 }
