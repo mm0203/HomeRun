@@ -21,7 +21,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	// ˆÚ“®•ûŒü
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		FVector MoveVelocity;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)

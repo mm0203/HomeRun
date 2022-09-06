@@ -19,20 +19,19 @@ void ALevelScript::BeginPlay()
 	// カメラアクタを取得
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACameraActor::StaticClass(), FoundActors);
 
-	auto GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
-	GameMode->GameStartDelegate.AddUObject(this, &ALevelScript::SetSpeed);
+	GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
+	MoveSpeed = GameMode->MoveSpeed;
 }
 
 void ALevelScript::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FoundActors[0]->AddActorWorldOffset(MoveSpeed);
-}
+	GameStart = GameMode->GameOver;
 
-void ALevelScript::SetSpeed()
-{
-	auto GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
-	MoveSpeed = GameMode->MoveSpeed;
+	if (!GameStart)
+	{
+		FoundActors[0]->AddActorWorldOffset(MoveSpeed);
+	}
 }
 

@@ -22,10 +22,9 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	void SetSpeed();
-
 private:
 	TArray<AActor*> FoundActors;
 	FVector MoveSpeed;
 	bool GameStart;
+	ARunGameGameMode* GameMode;
 };

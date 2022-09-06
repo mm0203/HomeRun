@@ -83,6 +83,7 @@ public:
 private:
 	int PlayerLane;
 	FVector MoveSpeed;
+	ARunGameGameMode* GameMode;
 	ARunGameStateBase* GameState;
 
 

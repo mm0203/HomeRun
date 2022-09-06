@@ -19,9 +19,6 @@ public:
 	DECLARE_MULTICAST_DELEGATE(FGameStartDelegate);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool GameStart;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool GameOver;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

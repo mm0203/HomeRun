@@ -77,7 +77,7 @@ void ARunGameCharacter::BeginPlay()
 	GameState = GetWorld()->GetGameState<ARunGameStateBase>();
 	PlayerLane = GameState->GetLane();
 
-	auto GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
+	GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
 	GameMode->GameStartDelegate.AddUObject(this, &ARunGameCharacter::SetSpeed);
 
 	if (AbilitySystem)
@@ -102,7 +102,9 @@ void ARunGameCharacter::BeginPlay()
 // Called every frame
 void ARunGameCharacter::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+	//auto GameMode = GetWorld()->GetGameState<ARunGameGameMode>();
+
+	GameStart = GameMode->GameOver;
 
 	bool Buff = GameState->GetPowerUp();
 
@@ -115,8 +117,13 @@ void ARunGameCharacter::Tick(float DeltaTime)
 		PointLightComponent->SetVisibility(false);
 	}
 
-	AddActorWorldOffset(MoveSpeed);
+	if (!GameStart)
+	{
+		AddActorWorldOffset(MoveSpeed);
+	}
 
+
+	Super::Tick(DeltaTime);
 }
 
 void ARunGameCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -161,7 +168,6 @@ void ARunGameCharacter::PlayerMoveLeft()
 
 void ARunGameCharacter::SetSpeed()
 {
-	auto GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
 	MoveSpeed = GameMode->MoveSpeed;
 }
 

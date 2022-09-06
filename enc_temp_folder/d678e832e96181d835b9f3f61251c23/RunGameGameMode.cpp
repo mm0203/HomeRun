@@ -15,15 +15,13 @@ ARunGameGameMode::ARunGameGameMode()
 	}
 
 	MoveSpeed = FVector(0, 0, 0);
-	GameStart = true;
-	GameOver = false;
+	GameOver = true;
 	OpenLevel = "\0";
 }
 
 void ARunGameGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
 	GameState = GetWorld()->GetGameState<ARunGameStateBase>();
 
 	UGameplayStatics::PlaySound2D(this, GameSound);
@@ -37,7 +35,6 @@ void ARunGameGameMode::Tick(float DeltaTime)
 	if(GameState->GetLife() <= 0)
 	{
 		GameOver = true;
-		GameStart = true;
 		FTimerHandle _TimerHandle;
 		GetWorld()->GetTimerManager().SetTimer(_TimerHandle, this, &ARunGameGameMode::OpenLevelFunc, 1.0f, false, 2.0f);
 	}
