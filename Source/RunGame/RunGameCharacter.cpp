@@ -78,7 +78,7 @@ void ARunGameCharacter::BeginPlay()
 	PlayerLane = GameState->GetLane();
 
 	GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
-	MoveSpeed = GameMode->MoveSpeed;
+	GameMode->GameStartDelegate.AddUObject(this, &ARunGameCharacter::SetSpeed);
 
 	if (AbilitySystem)
 	{
@@ -164,6 +164,11 @@ void ARunGameCharacter::PlayerMoveLeft()
 		UGameplayStatics::PlaySound2D(this, RightMoveSound);
 		RightMoveSound->VolumeMultiplier = 2.0f;
 	}
+}
+
+void ARunGameCharacter::SetSpeed()
+{
+	MoveSpeed = GameMode->MoveSpeed;
 }
 
 void ARunGameCharacter::OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor)

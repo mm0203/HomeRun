@@ -16,7 +16,7 @@ class ARunGameGameMode : public AGameModeBase
 public:
 	ARunGameGameMode();
 
-	DECLARE_MULTICAST_DELEGATE(FGameOverDelegate);
+	DECLARE_MULTICAST_DELEGATE(FGameStartDelegate);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool GameOver;
@@ -35,12 +35,15 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	FGameOverDelegate LifeDelegate;
+	FGameStartDelegate GameStartDelegate;
 
 	ARunGameStateBase* GameState;
 
 	UFUNCTION()
 		void OpenLevelFunc();
+
+	UFUNCTION(BlueprintCallable)
+		void GameStartCast();
 };
 
 

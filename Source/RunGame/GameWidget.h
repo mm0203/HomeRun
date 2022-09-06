@@ -19,6 +19,7 @@ protected:
     // テキスト保存用
     UTextBlock* ScoreTextBlock;
     UTextBlock* LifeTextBlock;
+    UTextBlock* GameStartTextBlock;
 
 public:
     UGameWidget(const FObjectInitializer& ObjectInitializer);

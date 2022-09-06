@@ -44,3 +44,8 @@ void ARunGameGameMode::OpenLevelFunc()
 {
 	UGameplayStatics::OpenLevel(GetWorld(), OpenLevel);
 }
+
+void ARunGameGameMode::GameStartCast()
+{
+	GameStartDelegate.Broadcast();
+}

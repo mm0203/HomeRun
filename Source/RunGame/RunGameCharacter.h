@@ -70,6 +70,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
+		void SetSpeed();
+
+	UFUNCTION()
 		void OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor);
 
 	// getter
