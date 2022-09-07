@@ -6,9 +6,12 @@
 #include "GameFramework/GameStateBase.h"
 #include "RunGameStateBase.generated.h"
 
-/**
- * 
- */
+// デリゲート宣言
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FScoreUpdateDelegate, int, Score);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemBuffDelegate, int, No);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLifeDelegate, int, Life);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPowerUpDelegate);
+
 UCLASS()
 class RUNGAME_API ARunGameStateBase : public AGameStateBase
 {
@@ -16,11 +19,14 @@ class RUNGAME_API ARunGameStateBase : public AGameStateBase
 public:
 	ARunGameStateBase();
 
-	// マルチキャストデリゲート
-	DECLARE_MULTICAST_DELEGATE_OneParam(FScoreUpdateDelegate, int);
-	DECLARE_MULTICAST_DELEGATE_OneParam(FItemBuffDelegate, int);
-	DECLARE_MULTICAST_DELEGATE_OneParam(FLifeDelegate, int);
-	DECLARE_MULTICAST_DELEGATE(FPowerUpDelegate);
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "GameState")
+		int Life;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "GameState")
+		bool PowerUp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = "GameState")
+		float PowerUpTime;
 
 	// スコア加算関数
 	void ScoreAdd(int score);
@@ -28,21 +34,33 @@ public:
 	void ItemBuff(int no);
 	// ライフ加減関数
 	void LifeCalc(int life);
-
-	// デリゲート作成
-	FScoreUpdateDelegate ScoreUpdateDelegate;
-	FItemBuffDelegate ItemBuffDelegate;
-	FLifeDelegate LifeDelegate;
-	FPowerUpDelegate PowerUpDelegate;
+	// パワーアップ関数
+	void IsPowerUp();
 
 protected:
 	int Score;
 	int ItemNo;
-	bool PowerUp;
 	int Lane;
-	int Life;
 
 public:
+	// デリゲートセット用関数
+	void SetGameStartDelegate(FScoreUpdateDelegate::FDelegate& Delegate)
+	{
+		ScoreUpdateDelegate.Add(Delegate);
+	}
+	void SetItemBuffDelegate(FItemBuffDelegate::FDelegate& Delegate)
+	{
+		ItemBuffDelegate.Add(Delegate);
+	}
+	void SetLifeDelegate(FLifeDelegate::FDelegate& Delegate)
+	{
+		LifeDelegate.Add(Delegate);
+	}
+	void SetPowerUpDelegate(FPowerUpDelegate::FDelegate& Delegate)
+	{
+		PowerUpDelegate.Add(Delegate);
+	}
+
 	UFUNCTION(BlueprintCallable)
 	bool& GetPowerUp() { return PowerUp; }
 	void SetPowerUp(bool value) { PowerUp = value; }
@@ -53,4 +71,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int& GetLife() { return Life; }
 	void SetLife(int value) { Life = value; }
+
+private:
+	// 各種デリゲート
+	FScoreUpdateDelegate ScoreUpdateDelegate;
+	FItemBuffDelegate ItemBuffDelegate;
+	FLifeDelegate LifeDelegate;
+	FPowerUpDelegate PowerUpDelegate;
 };

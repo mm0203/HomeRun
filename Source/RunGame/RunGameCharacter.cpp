@@ -72,12 +72,26 @@ void ARunGameCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	GameState = GetWorld()->GetGameState<ARunGameStateBase>();
+	GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
+
 	PlayerLane = GameState->GetLane();
 
-	GameMode = Cast<ARunGameGameMode>(GetWorld()->GetAuthGameMode());
-	GameMode->GameStartDelegate.AddUObject(this, &ARunGameCharacter::IsMove);
-	GameMode->GameEndDelegate.AddUObject(this, &ARunGameCharacter::IsMove);
+	// デリゲートに登録
+	FPowerUpDelegate::FDelegate PowerUpDelegate;
+	PowerUpDelegate.BindDynamic(this, &ARunGameCharacter::PlayerPowerUp);
+	GameState->SetPowerUpDelegate(PowerUpDelegate);
 
+	FGameStartDelegate::FDelegate GameStartDelegate;
+	GameStartDelegate.BindDynamic(this, &ARunGameCharacter::IsMove);
+	GameMode->SetGameStartDelegate(GameStartDelegate);
+
+	FGameStartDelegate::FDelegate GameEndDelegate;
+	GameEndDelegate.BindDynamic(this, &ARunGameCharacter::IsMove);
+	GameMode->SetGameEndDelegate(GameEndDelegate);
+
+	OnActorBeginOverlap.AddDynamic(this, &ARunGameCharacter::OnOverlapBegin);
+
+	// アビリティシステム
 	if (AbilitySystem)
 	{
 		int32 inputID(0);
@@ -93,25 +107,12 @@ void ARunGameCharacter::BeginPlay()
 		}
 		AbilitySystem->InitAbilityActorInfo(this, this);
 	}
-
-	OnActorBeginOverlap.AddDynamic(this, &ARunGameCharacter::OnOverlapBegin);
 }
 
 // Called every frame
 void ARunGameCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	bool Buff = GameState->GetPowerUp();
-
-	if(Buff)
-	{
-		PointLightComponent->SetVisibility(true);
-	}
-	else
-	{
-		PointLightComponent->SetVisibility(false);
-	}
 
 	AddActorWorldOffset(MoveSpeed);
 }
@@ -120,12 +121,11 @@ void ARunGameCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	//PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	//PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	PlayerInputComponent->BindAction("MoveRight", IE_Pressed, this, &ARunGameCharacter::PlayerMoveRight);
 	PlayerInputComponent->BindAction("MoveLeft", IE_Pressed, this, &ARunGameCharacter::PlayerMoveLeft);
-
 }
 
 void ARunGameCharacter::PlayerMoveRight()
@@ -158,10 +158,24 @@ void ARunGameCharacter::PlayerMoveLeft()
 
 void ARunGameCharacter::IsMove()
 {
+	// ゲームの状態
 	GameStart = GameMode->GamePlay;
+	// 移動速度設定
 	MoveSpeed = GameMode->MoveSpeed;
 }
 
+void ARunGameCharacter::PlayerPowerUp()
+{
+	PointLightComponent->SetVisibility(true);
+
+	// ラムダ
+	TFunction<void(void)> PowerUpLift = [this]() {PointLightComponent->SetVisibility(false); };
+
+	// 3秒後に解除
+	FTimerHandle TimerHandle;
+	FTimerManager& TimerManager = GetWorldTimerManager();
+	TimerManager.SetTimer(TimerHandle,(TFunction<void(void)>&&)PowerUpLift, 1.0f, false, GameState->PowerUpTime);
+}
 
 void ARunGameCharacter::OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor)
 {

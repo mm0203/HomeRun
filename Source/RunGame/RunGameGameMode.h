@@ -4,9 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "RunGameStateBase.h"
 #include "Sound/SoundCue.h"
 #include "RunGameGameMode.generated.h"
+
+// デリゲート宣言
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameStartDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameEndDelegate);
 
 UCLASS(minimalapi)
 class ARunGameGameMode : public AGameModeBase
@@ -16,10 +19,7 @@ class ARunGameGameMode : public AGameModeBase
 public:
 	ARunGameGameMode();
 
-	DECLARE_MULTICAST_DELEGATE(FGameStartDelegate);
-	DECLARE_MULTICAST_DELEGATE(FGameEndDelegate);
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere)
 		bool GamePlay;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -34,21 +34,27 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	// ゲーム開始・終了デリゲート
-	FGameStartDelegate GameStartDelegate;
-	FGameEndDelegate GameEndDelegate;
-
-	ARunGameStateBase* GameState;
-
-	// シーン遷移関数
-	UFUNCTION()
-		void OpenLevelFunc();
 	// ゲーム開始時に呼ぶ関数
 	UFUNCTION(BlueprintCallable)
 		void IsGameStart();
 	// ゲーム終了時に呼ぶ関数
 	UFUNCTION(BlueprintCallable)
 		void IsGameEnd();
+
+	// デリゲートセット用関数
+	void SetGameStartDelegate(FGameStartDelegate::FDelegate& Delegate)
+	{
+		GameStartDelegate.Add(Delegate);
+	}
+	void SetGameEndDelegate(FGameEndDelegate::FDelegate& Delegate)
+	{
+		GameEndDelegate.Add(Delegate);
+	}
+
+private:
+	// 各種デリゲート
+	FGameStartDelegate GameStartDelegate;
+	FGameEndDelegate GameEndDelegate;
 };
 
 

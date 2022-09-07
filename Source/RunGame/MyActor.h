@@ -4,23 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "BuffItemManager.generated.h"
-
+#include "MyActor.generated.h"
 
 UCLASS()
-class RUNGAME_API ABuffItemManager : public AActor
+class RUNGAME_API AMyActor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ABuffItemManager();
+	AMyActor();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	UFUNCTION()
-		void BuffEffect(int no);
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 };

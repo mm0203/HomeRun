@@ -12,30 +12,22 @@ ABuffItemManager::ABuffItemManager()
 void ABuffItemManager::BeginPlay()
 {
 	Super::BeginPlay();
-	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
-	if (gameState != nullptr)
+
+	// デリゲート登録
+	auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();
+	if (GameState)
 	{
-		gameState->ItemBuffDelegate.AddUObject(this, &ABuffItemManager::BuffEffect);
+		FItemBuffDelegate::FDelegate ItemBuffDelegate;
+		ItemBuffDelegate.BindDynamic(this, &ABuffItemManager::BuffEffect);
+		GameState->SetItemBuffDelegate(ItemBuffDelegate);
 	}
 }
 
 void ABuffItemManager::BuffEffect(int no)
 {
 	// パワーアップ
-	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
-	gameState->SetPowerUp(true);
-
-	// 3秒後にバフ効果削除
-	FTimerHandle TimerHandle;
-	FTimerManager& TimerManager = GetWorldTimerManager();
-	TimerManager.SetTimer(TimerHandle, this, &ABuffItemManager::PowerUpLift, 1.0f, false, 3.0f);
-}
-
-void ABuffItemManager::PowerUpLift()
-{
-	// バフ効果消える
-	auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
-	gameState->SetPowerUp(false);
+	auto GameState = GetWorld()->GetGameState<ARunGameStateBase>();
+	GameState->IsPowerUp();
 }
 
 

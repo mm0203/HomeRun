@@ -31,8 +31,18 @@ protected:
 
 public:
     // UI更新関数
+    UFUNCTION()
     void UpdateLife(int life);
+
+    // スコア更新関数
+    UFUNCTION()
     void UpdateScore(int score);
+    
+    // スタート時のUI表示関数
+    UFUNCTION()
     void StartVisibility();
+
+    // ゲーム終了時のUI表示関数
+    UFUNCTION()
     void EndVisibility();
 };

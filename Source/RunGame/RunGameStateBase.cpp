@@ -10,6 +10,7 @@ ARunGameStateBase::ARunGameStateBase()
 	PowerUp = false;
 	Lane = 2;
 	Life = 3;
+	PowerUpTime = 3.0f;
 }
 
 void ARunGameStateBase::ScoreAdd(int score)
@@ -31,5 +32,19 @@ void ARunGameStateBase::LifeCalc(int life)
 	// ライフ加減
 	Life -= life;
 	LifeDelegate.Broadcast(Life);
+}
+
+void ARunGameStateBase::IsPowerUp()
+{
+	PowerUp = true;
+	PowerUpDelegate.Broadcast();
+
+	// ラムダ
+	TFunction<void(void)> PowerUpLift = [this]() {PowerUp = false; };
+
+	// 3秒後にパワーアップ解除
+	FTimerHandle TimerHandle;
+	FTimerManager& TimerManager = GetWorldTimerManager();
+	TimerManager.SetTimer(TimerHandle, (TFunction<void(void)>&&)PowerUpLift, 1.0f, false, PowerUpTime);
 }
 

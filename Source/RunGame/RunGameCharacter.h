@@ -66,6 +66,9 @@ public:
 		void IsMove();
 
 	UFUNCTION()
+		void PlayerPowerUp();
+
+	UFUNCTION()
 		void OnOverlapBegin(AActor* PlayerActor, AActor* OtherActor);
 
 	// getter

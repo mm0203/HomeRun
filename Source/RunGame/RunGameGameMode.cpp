@@ -23,8 +23,6 @@ void ARunGameGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameState = GetWorld()->GetGameState<ARunGameStateBase>();
-
 	// 3秒後にゲーム開始
 	FTimerHandle _TimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(_TimerHandle, this, &ARunGameGameMode::IsGameStart, 1.0f, false, 3.0f);
@@ -50,13 +48,11 @@ void ARunGameGameMode::IsGameEnd()
 	// ゲーム終了時のデリゲート呼び出し
 	GameEndDelegate.Broadcast();
 
+	// ラムダ
+	TFunction<void(void)> OpenLevelFunc = [this]() {UGameplayStatics::OpenLevel(GetWorld(), OpenLevel); };
+
 	// ２秒後にシーン遷移
 	FTimerHandle _TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(_TimerHandle, this, &ARunGameGameMode::OpenLevelFunc, 1.0f, false, 2.0f);
-}
-
-void ARunGameGameMode::OpenLevelFunc()
-{
-	UGameplayStatics::OpenLevel(GetWorld(), OpenLevel);
+	GetWorld()->GetTimerManager().SetTimer(_TimerHandle, (TFunction<void(void)>&&)OpenLevelFunc, 1.0f, false, 2.0f);
 }
 
