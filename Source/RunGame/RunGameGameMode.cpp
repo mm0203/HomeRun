@@ -15,8 +15,7 @@ ARunGameGameMode::ARunGameGameMode()
 	}
 
 	MoveSpeed = FVector(0, 0, 0);
-	GameStart = true;
-	GameEnd = false;
+	GamePlay = false;
 	OpenLevel = "\0";
 }
 
@@ -36,17 +35,14 @@ void ARunGameGameMode::BeginPlay()
 void ARunGameGameMode::IsGameStart()
 {
 	// ゲーム開始
-	GameStart = false;
+	GamePlay = true;
 	// ゲーム開始時のデリゲート呼び出し
 	GameStartDelegate.Broadcast();
 }
 
 void ARunGameGameMode::IsGameEnd()
 {
-	GameStart = true;
-
-	// ゲーム終了フラグ
-	GameEnd = true;
+	GamePlay = false;
 
 	// 移動付加
 	MoveSpeed = FVector(0, 0, 0);

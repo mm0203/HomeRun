@@ -16,14 +16,15 @@ void AGameWidgetManager::BeginPlay()
 
     WidgetInstance = CreateWidget<UGameWidget>(GetWorld(), WidgetClass);
 
+    auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
+
     if (WidgetInstance)
     {
         WidgetInstance->AddToViewport();
         WidgetInstance->UpdateScore(0);
-        WidgetInstance->UpdateLife(3);
+        WidgetInstance->UpdateLife(gameState->GetLife());
     }
 
-    auto gameState = GetWorld()->GetGameState<ARunGameStateBase>();
     if (gameState)
     {
         gameState->ScoreUpdateDelegate.AddUObject(WidgetInstance, &UGameWidget::UpdateScore);
@@ -34,5 +35,6 @@ void AGameWidgetManager::BeginPlay()
     if(GameMode)
     {
         GameMode->GameStartDelegate.AddUObject(WidgetInstance, &UGameWidget::StartVisibility);
+        GameMode->GameEndDelegate.AddUObject(WidgetInstance, &UGameWidget::EndVisibility);
     }
 }

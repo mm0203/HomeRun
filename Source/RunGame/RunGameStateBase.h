@@ -20,6 +20,7 @@ public:
 	DECLARE_MULTICAST_DELEGATE_OneParam(FScoreUpdateDelegate, int);
 	DECLARE_MULTICAST_DELEGATE_OneParam(FItemBuffDelegate, int);
 	DECLARE_MULTICAST_DELEGATE_OneParam(FLifeDelegate, int);
+	DECLARE_MULTICAST_DELEGATE(FPowerUpDelegate);
 
 	// ÉXÉRÉAâ¡éZä÷êî
 	void ScoreAdd(int score);
@@ -32,6 +33,7 @@ public:
 	FScoreUpdateDelegate ScoreUpdateDelegate;
 	FItemBuffDelegate ItemBuffDelegate;
 	FLifeDelegate LifeDelegate;
+	FPowerUpDelegate PowerUpDelegate;
 
 protected:
 	int Score;

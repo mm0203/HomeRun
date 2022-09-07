@@ -33,6 +33,11 @@ void UGameWidget::NativeOnInitialized()
     {
         StartTextBlock = pTextBlock;
     }
+    pTextBlock = Cast<UTextBlock>(GetWidgetFromName("EndText"));
+    if (pTextBlock)
+    {
+        EndTextBlock = pTextBlock;
+    }
 }
 
 void UGameWidget::UpdateLife(int score)
@@ -63,4 +68,9 @@ void UGameWidget::StartVisibility()
 {
     StartTextBlock->SetVisibility(ESlateVisibility::Hidden);
     StartTextBlock = nullptr;
+}
+
+void UGameWidget::EndVisibility()
+{
+    EndTextBlock->SetText(FText::FromString("End"));
 }

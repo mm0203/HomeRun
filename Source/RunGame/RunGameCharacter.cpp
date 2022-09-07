@@ -24,9 +24,6 @@ ARunGameCharacter::ARunGameCharacter()
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
-	// set our turn rate for input
-	TurnRateGamepad = 50.f;
-
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -105,8 +102,6 @@ void ARunGameCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	GameStart = GameMode->GameStart;
-
 	bool Buff = GameState->GetPowerUp();
 
 	if(Buff)
@@ -136,7 +131,7 @@ void ARunGameCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 void ARunGameCharacter::PlayerMoveRight()
 {
 	// レーンの端なら移動できない
-	if (!GameStart && PlayerLane < MaxPlayerLane::MaxRightLane)
+	if (GameStart && PlayerLane < MaxPlayerLane::MaxRightLane)
 	{
 		// レーンの移動
 		PlayerLane += 1;
@@ -150,7 +145,7 @@ void ARunGameCharacter::PlayerMoveRight()
 void ARunGameCharacter::PlayerMoveLeft()
 {
 	// レーンの端なら移動できない
-	if (!GameStart && PlayerLane > MaxPlayerLane::MaxLeftLane)
+	if (GameStart && PlayerLane > MaxPlayerLane::MaxLeftLane)
 	{
 		// レーンの移動
 		PlayerLane -= 1;
@@ -163,6 +158,7 @@ void ARunGameCharacter::PlayerMoveLeft()
 
 void ARunGameCharacter::IsMove()
 {
+	GameStart = GameMode->GamePlay;
 	MoveSpeed = GameMode->MoveSpeed;
 }
 

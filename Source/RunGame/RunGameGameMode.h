@@ -20,10 +20,7 @@ public:
 	DECLARE_MULTICAST_DELEGATE(FGameEndDelegate);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool GameStart;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool GameEnd;
+		bool GamePlay;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FVector MoveSpeed;

@@ -35,10 +35,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Abilities)
 		TArray<TSubclassOf<class UGameplayAbility>> AbilityList;
 
-	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Input)
-	float TurnRateGamepad;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect")
 		UParticleSystem* Particle;
 

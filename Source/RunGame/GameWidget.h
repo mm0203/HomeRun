@@ -20,6 +20,7 @@ protected:
     UTextBlock* ScoreTextBlock;
     UTextBlock* LifeTextBlock;
     UTextBlock* StartTextBlock;
+    UTextBlock* EndTextBlock;
 
 
 public:
@@ -33,4 +34,5 @@ public:
     void UpdateLife(int life);
     void UpdateScore(int score);
     void StartVisibility();
+    void EndVisibility();
 };
